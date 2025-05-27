@@ -1,5 +1,19 @@
 @import "tailwindcss";
 
 @theme {
-    /* Add tailwind themes here */
+    --color-primary: #457DE5;
+    --color-primary-light: #8BAAE4;
+    --color-primary-muted: #5E8BDE;
+    --color-shade-50: #F1F1F1;
+    --color-shade-200: #BFBFBF;
+    --color-shade-400: #747474;
+    --color-shade-500: #4F4F4F;
+    --color-shade-600: #343434;
+    --color-shade-700: #242424;
+    --color-shade-900: #0D0D0D;
+    --color-shade-950: #040404;
+}
+
+body {
+  font-family: 'Kantumruy', sans-serif;
 }
