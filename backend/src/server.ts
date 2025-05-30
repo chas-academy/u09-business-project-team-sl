@@ -3,6 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import { connectDB } from "./config/db";
 import rawgRoutes from "./routes/rawg";
+import authRoutes from "./routes/auth";
 
 dotenv.config();
 
@@ -13,6 +14,9 @@ app.use(express.json());
 
 // Import RAWG API
 app.use("/api", rawgRoutes);
+
+// Auth routes
+app.use("/api/auth", authRoutes);
 
 // Connect to mongoDB
 connectDB();
