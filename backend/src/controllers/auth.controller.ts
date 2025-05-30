@@ -90,3 +90,8 @@ export const login = async (req: Request, res: Response): Promise<void> => {
     res.status(500).json({ message: "Login failed", error: err });
   }
 };
+
+// Log out
+export const logout = (_req: Request, res: Response): void => {
+  res.status(200).json({ message: "Logged out successfully" });
+};
