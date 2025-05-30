@@ -17,6 +17,7 @@ app.use(express.json());
 app.use("/api", rawgRoutes); // RAWG API
 app.use("/api/auth", authRoutes);
 app.use("/api/lists", listRoutes);
+app.use("/api/lists", listRoutes);
 
 // Connect to mongoDB
 connectDB();
