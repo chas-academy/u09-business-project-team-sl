@@ -3,11 +3,12 @@ import jwt from "jsonwebtoken";
 
 const JWT_SECRET = process.env.JWT_SECRET || "secret";
 
-const verifyToken = (req: Request, res: Response, next: NextFunction) => {
+const verifyToken = (req: Request, res: Response, next: NextFunction): void => {
   const authHeader = req.headers.authorization;
 
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
-    return res.status(401).json({ message: "Missing or invalid token" });
+    res.status(401).json({ message: "Missing or invalid token" });
+    return;
   }
 
   const token = authHeader.split(" ")[1];
@@ -17,7 +18,8 @@ const verifyToken = (req: Request, res: Response, next: NextFunction) => {
     (req as any).userId = decoded.id;
     next();
   } catch {
-    return res.status(401).json({ message: "Invalid token" });
+    res.status(401).json({ message: "Invalid token" });
+    return;
   }
 };
 
