@@ -21,7 +21,7 @@ export const createList = async (req: Request, res: Response): Promise<void> => 
   }
 };
 
-// Get all lists (logged in user)
+// Get all lists
 export const getMyLists = async (req: Request, res: Response): Promise<void> => {
   const userId = (req as any).userId;
 
@@ -30,5 +30,28 @@ export const getMyLists = async (req: Request, res: Response): Promise<void> => 
     res.status(200).json(lists);
   } catch (error) {
     res.status(500).json({ message: "Failed to fetch lists", error });
+  }
+};
+
+
+// Get specific list
+export const getListById = async (req: Request, res: Response): Promise<void> => {
+  const listId = req.params.id;
+  const userId = (req as any).userId;
+
+  try {
+    const list = await List.findOne({ _id: listId, userId });
+
+    if (!list) {
+      res.status(404).json({ message: "List not found" });
+      return;
+    }
+
+    res.status(200).json({
+      title: list.title,
+      games: [], // implement from API later
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Failed to fetch list", error });
   }
 };
