@@ -3,7 +3,7 @@ import List from "../models/List";
 
 // Create list
 export const createList = async (req: Request, res: Response): Promise<void> => {
-  const { title } = req.body;
+  const { title, description } = req.body;
   const userId = (req as any).userId; // Extract from token later
 
   if (!title) {
@@ -12,7 +12,7 @@ export const createList = async (req: Request, res: Response): Promise<void> => 
   }
 
   try {
-    const newList = await List.create({ title, userId });
+    const newList = await List.create({ title, description, userId });
     res.status(201).json(newList);
     return;
   } catch (error) {
