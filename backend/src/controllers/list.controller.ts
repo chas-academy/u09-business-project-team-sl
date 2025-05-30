@@ -49,6 +49,7 @@ export const getListById = async (req: Request, res: Response): Promise<void> =>
 
     res.status(200).json({
       title: list.title,
+      description: list.description,
       games: [], // implement from API later
     });
   } catch (error) {
