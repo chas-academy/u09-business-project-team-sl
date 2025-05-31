@@ -94,3 +94,25 @@ export const updateList = async (
     res.status(500).json({ message: "Failed to update list", error });
   }
 };
+
+// Delete list
+export const deleteList = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  const listId = req.params.id;
+  const userId = (req as any).userId;
+
+  try {
+    const deletedList = await List.findOneAndDelete({ _id: listId, userId });
+
+    if (!deletedList) {
+      res.status(404).json({ message: "List not found or not authorized" });
+      return;
+    }
+
+    res.status(200).json({ message: "List deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: "Failed to delete list", error });
+  }
+};
