@@ -1,13 +1,20 @@
 import { Request, Response } from "express";
+import fetch from "node-fetch";
 import List from "../models/List";
 
+// Type for RAWG game response
+type RawgGame = {
+  id: number;
+  name: string;
+  released: string;
+  background_image: string;
+  platforms?: { platform: { name: string } }[];
+};
+
 // Create list
-export const createList = async (
-  req: Request,
-  res: Response
-): Promise<void> => {
+export const createList = async (req: Request, res: Response): Promise<void> => {
   const { title, description } = req.body;
-  const userId = (req as any).userId; // Extract from token later
+  const userId = (req as any).userId;
 
   if (!title) {
     res.status(400).json({ message: "Title is required" });
@@ -17,18 +24,13 @@ export const createList = async (
   try {
     const newList = await List.create({ title, description, userId });
     res.status(201).json(newList);
-    return;
   } catch (error) {
     res.status(500).json({ message: "Failed to create list", error });
-    return;
   }
 };
 
 // Get all lists
-export const getMyLists = async (
-  req: Request,
-  res: Response
-): Promise<void> => {
+export const getMyLists = async (req: Request, res: Response): Promise<void> => {
   const userId = (req as any).userId;
 
   try {
@@ -40,10 +42,7 @@ export const getMyLists = async (
 };
 
 // Get specific list
-export const getListById = async (
-  req: Request,
-  res: Response
-): Promise<void> => {
+export const getListById = async (req: Request, res: Response): Promise<void> => {
   const listId = req.params.id;
   const userId = (req as any).userId;
 
@@ -55,21 +54,14 @@ export const getListById = async (
       return;
     }
 
-    res.status(200).json({
-      title: list.title,
-      description: list.description,
-      games: [], // implement from API later
-    });
+    res.status(200).json(list);
   } catch (error) {
     res.status(500).json({ message: "Failed to fetch list", error });
   }
 };
 
 // Update list
-export const updateList = async (
-  req: Request,
-  res: Response
-): Promise<void> => {
+export const updateList = async (req: Request, res: Response): Promise<void> => {
   const listId = req.params.id;
   const userId = (req as any).userId;
   const { title, description } = req.body;
@@ -96,10 +88,7 @@ export const updateList = async (
 };
 
 // Delete list
-export const deleteList = async (
-  req: Request,
-  res: Response
-): Promise<void> => {
+export const deleteList = async (req: Request, res: Response): Promise<void> => {
   const listId = req.params.id;
   const userId = (req as any).userId;
 
@@ -114,5 +103,57 @@ export const deleteList = async (
     res.status(200).json({ message: "List deleted successfully" });
   } catch (error) {
     res.status(500).json({ message: "Failed to delete list", error });
+  }
+};
+
+// Add game to list
+export const addGameToList = async (req: Request, res: Response): Promise<void> => {
+  const listId = req.params.id;
+  const userId = (req as any).userId;
+  const { rawgId } = req.body;
+
+  if (!rawgId) {
+    res.status(400).json({ message: "rawgId is required" });
+    return;
+  }
+
+  try {
+    const list = await List.findOne({ _id: listId, userId });
+    if (!list) {
+      res.status(404).json({ message: "List not found" });
+      return;
+    }
+
+    const alreadyExists = list.games.some((game) => game.rawgId === rawgId.toString());
+    if (alreadyExists) {
+      res.status(400).json({ message: "Game already in list" });
+      return;
+    }
+
+    const response = await fetch(
+      `https://api.rawg.io/api/games/${rawgId}?key=${process.env.RAWG_API_KEY}`
+    );
+
+    if (!response.ok) {
+      res.status(502).json({ message: "Failed to fetch game from RAWG" });
+      return;
+    }
+
+    const gameData = (await response.json()) as RawgGame;
+
+    const newGame = {
+      rawgId: gameData.id.toString(),
+      title: gameData.name,
+      releaseDate: gameData.released,
+      platforms: gameData.platforms?.map((p) => p.platform.name) || [],
+      image: gameData.background_image || "",
+    };
+
+    list.games.push(newGame);
+    await list.save();
+
+    res.status(200).json({ message: "Game added to list", game: newGame });
+  } catch (error) {
+    res.status(500).json({ message: "Failed to add game", error });
   }
 };
