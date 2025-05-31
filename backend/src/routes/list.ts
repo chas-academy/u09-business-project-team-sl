@@ -17,6 +17,6 @@ router.get("/", verifyToken, getMyLists);
 router.get("/:id", verifyToken, getListById);
 router.put("/:id", verifyToken, updateList);
 router.delete("/:id", verifyToken, deleteList);
-router.post("/:id/games", verifyToken, addGameToList);
+router.post("/:id/add-game", verifyToken, addGameToList);
 
 export default router;
