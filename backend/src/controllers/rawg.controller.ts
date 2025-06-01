@@ -4,14 +4,15 @@ import { RawgGame } from "../types/RawgGame";
 
 const RAWG_API_KEY = process.env.RAWG_API_KEY;
 
-export const getGameDetails = async (req: Request, res: Response) => {
+export const getGameDetails = async (req: Request, res: Response): Promise<void> => {
   const { id } = req.params;
 
   try {
     const response = await fetch(`https://api.rawg.io/api/games/${id}?key=${RAWG_API_KEY}`);
 
     if (!response.ok) {
-      return res.status(404).json({ message: "Game not found" });
+      res.status(404).json({ message: "Game not found" });
+      return;
     }
 
     const game = (await response.json()) as RawgGame;
@@ -30,3 +31,4 @@ export const getGameDetails = async (req: Request, res: Response) => {
     res.status(500).json({ message: "Failed to fetch game details", error: err });
   }
 };
+
