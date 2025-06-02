@@ -9,7 +9,7 @@ const router = Router();
 const RAWG_API_KEY = process.env.RAWG_API_KEY;
 const BASE_URL = "https://api.rawg.io/api";
 
-// fetch all hames
+// fetch all games
 router.get("/games", async (_req, res) => {
   try {
     const url = `${BASE_URL}/games?key=${RAWG_API_KEY}&page_size=10`;
