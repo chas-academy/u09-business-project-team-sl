@@ -11,7 +11,7 @@ import verifyToken from "../middleware/verifyToken";
 
 const router = Router();
 
-// Create list
+// Routes
 router.post("/", verifyToken, createList);
 router.get("/", verifyToken, getMyLists);
 router.get("/:id", verifyToken, getListById);
