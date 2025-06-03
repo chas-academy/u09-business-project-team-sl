@@ -16,8 +16,41 @@ type RawgSearchResponse = {
   }[];
 };
 
+// Fetch all games (with pagination)
+export const getGames = async (req: Request, res: Response): Promise<void> => {
+  const page = req.query.page || 1;
+  const pageSize = req.query.page_size || 10;
+
+  try {
+    const url = `${BASE_URL}/games?key=${RAWG_API_KEY}&page=${page}&page_size=${pageSize}`;
+    const response = await fetch(url);
+
+    if (!response.ok) {
+      throw new Error(`RAWG API responded with status ${response.status}`);
+    }
+
+    const data = (await response.json()) as { results: RawgGame[] };
+
+    const formattedGames = data.results.map((game) => ({
+      rawgId: game.id.toString(),
+      title: game.name,
+      releaseDate: game.released,
+      platforms: game.platforms?.map((p) => p.platform.name) || [],
+      image: game.background_image,
+    }));
+
+    res.status(200).json(formattedGames);
+  } catch (error) {
+    console.error("RAWG API error:", error);
+    res.status(500).json({ message: "Failed to fetch games from RAWG API" });
+  }
+};
+
 // Fetch details for a specific game
-export const getGameDetails = async (req: Request, res: Response): Promise<void> => {
+export const getGameDetails = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   const { id } = req.params;
 
   try {
@@ -33,46 +66,64 @@ export const getGameDetails = async (req: Request, res: Response): Promise<void>
     const formatted = {
       rawgId: game.id.toString(),
       title: game.name,
-      description: game.description_raw || game.description || "No description available.",
+      description:
+        game.description_raw || game.description || "No description available.",
       releaseDate: game.released,
-      platforms: game.platforms.map(p => p.platform.name),
-      image: game.background_image
+      platforms: game.platforms.map((p) => p.platform.name),
+      image: game.background_image,
     };
 
     res.status(200).json(formatted);
   } catch (err) {
-    res.status(500).json({ message: "Failed to fetch game details", error: err });
+    res
+      .status(500)
+      .json({ message: "Failed to fetch game details", error: err });
   }
 };
 
-// Search function
-export const searchGames = async (req: Request, res: Response): Promise<void> => {
+// Search for a specific game
+export const searchGames = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   const searchQuery = req.query.search;
 
   if (!searchQuery || typeof searchQuery !== "string") {
-    res.status(400).json({ message: "Search query is required and must be a string" });
+    res
+      .status(400)
+      .json({ message: "Search query is required and must be a string" });
     return;
   }
 
   try {
-    const response = await fetch(`${BASE_URL}/games?key=${RAWG_API_KEY}&search=${encodeURIComponent(searchQuery)}&page_size=10`);
+    const url = `${BASE_URL}/games?key=${RAWG_API_KEY}&search=${encodeURIComponent(
+      searchQuery
+    )}&page_size=10`;
+    console.log("RAWG Search URL:", url);
+
+    const response = await fetch(url);
 
     if (!response.ok) {
-      throw new Error("Failed to fetch search results from RAWG");
+      throw new Error(
+        `Failed to fetch search results from RAWG, status: ${response.status}`
+      );
     }
 
     const data = (await response.json()) as RawgSearchResponse;
 
-    const results = data.results.map(game => ({
+    console.log("RAWG Search response data:", JSON.stringify(data, null, 2));
+
+    const results = data.results.map((game) => ({
       rawgId: game.id.toString(),
       title: game.name,
       releaseDate: game.released,
-      platforms: game.platforms?.map(p => p.platform.name) || [],
+      platforms: game.platforms?.map((p) => p.platform.name) || [],
       image: game.background_image,
     }));
 
     res.status(200).json(results);
   } catch (error) {
+    console.error("Error in searchGames:", error);
     res.status(500).json({ message: "Search failed", error });
   }
 };
