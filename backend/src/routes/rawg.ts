@@ -1,7 +1,7 @@
 import { Router } from "express";
 import dotenv from "dotenv";
 import fetch from "node-fetch";
-import { getGameDetails } from "../controllers/rawg.controller";
+import { getGameDetails, searchGames } from "../controllers/rawg.controller";
 
 dotenv.config();
 
@@ -50,5 +50,9 @@ router.get("/games", async (req, res) => {
 
 // Fetch specific game details
 router.get("/games/:id", getGameDetails);
+
+
+// Search for a specific game
+router.get("(games/search", searchGames);
 
 export default router;
