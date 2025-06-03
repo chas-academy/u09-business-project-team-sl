@@ -53,6 +53,6 @@ router.get("/games/:id", getGameDetails);
 
 
 // Search for a specific game
-router.get("(games/search", searchGames);
+router.get("/games/search", searchGames);
 
 export default router;
