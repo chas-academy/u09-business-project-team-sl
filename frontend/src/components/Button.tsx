@@ -1,6 +1,7 @@
 import React from "react";
 import { Icon } from "@iconify/react";
 
+// Props
 type ButtonProps = {
   variant?: "primary" | "destructive";
   children: React.ReactNode;
@@ -20,9 +21,11 @@ const Button: React.FC<ButtonProps> = ({
   type = "button",
   className = "",
 }) => {
+  // Base style for all variants
   const baseStyles =
     "inline-flex w-fit items-center justify-center text-base font-bold px-4 py-2 rounded-lg gap-1 cursor-pointer shadow group";
 
+  // Different styles based on button variant
   const variantStyles =
     variant === "primary"
       ? "bg-primary text-shade-950 shadow-[inset_0_0_10px_5px_#2B6BE3] " +
