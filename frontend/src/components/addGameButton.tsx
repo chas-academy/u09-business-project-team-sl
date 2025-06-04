@@ -1,4 +1,5 @@
 import React from "react";
+import { Icon } from "@iconify/react"; 
 
 type AddGameButtonProps = {
   isAdded?: boolean;
@@ -19,9 +20,13 @@ const AddGameButton: React.FC<AddGameButtonProps> = ({ isAdded = false }) => {
       {isAdded ? (
         <>
           <span>Added</span>
+          <Icon icon="ic:round-check" className="size-4" />
         </>
       ) : (
-        <span>Add game</span>
+        <>
+          <Icon icon="mynaui:plus-solid" className="size-4" />
+          <span>Add game</span>
+        </>
       )}
     </button>
   );
