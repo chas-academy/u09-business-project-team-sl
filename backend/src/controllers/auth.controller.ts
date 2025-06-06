@@ -36,7 +36,7 @@ export const register = async (req: Request, res: Response): Promise<void> => {
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    // Lägg till authProvider: "local"
+    // Add "local" authProvider
     const newUser = new User({
       username,
       email,
