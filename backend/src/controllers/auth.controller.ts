@@ -3,10 +3,13 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import User from "../models/User";
 import dotenv from "dotenv";
+import { OAuth2Client } from "google-auth-library";
 
 dotenv.config();
 
 const JWT_SECRET = process.env.JWT_SECRET || "secret";
+const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID || "";
+const client = new OAuth2Client(GOOGLE_CLIENT_ID);
 
 // Register
 export const register = async (req: Request, res: Response): Promise<void> => {
@@ -25,14 +28,21 @@ export const register = async (req: Request, res: Response): Promise<void> => {
       return;
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
     if (!password || password.length < 8) {
       res
         .status(400)
         .json({ message: "Password must be at least 8 characters long" });
       return;
     }
-    const newUser = new User({ username, email, password: hashedPassword });
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+    // Lägg till authProvider: "local"
+    const newUser = new User({
+      username,
+      email,
+      password: hashedPassword,
+      authProvider: "local",
+    });
 
     await newUser.save();
 
@@ -52,7 +62,7 @@ export const register = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
-// Log in
+// Log in (username or email + password)
 export const login = async (req: Request, res: Response): Promise<void> => {
   const { identifier, password } = req.body; // identifier = username or email
 
@@ -88,6 +98,75 @@ export const login = async (req: Request, res: Response): Promise<void> => {
     });
   } catch (err) {
     res.status(500).json({ message: "Login failed", error: err });
+  }
+};
+
+// Google OAuth login
+export const googleLogin = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  const { idToken } = req.body;
+
+  try {
+    const ticket = await client.verifyIdToken({
+      idToken,
+      audience: GOOGLE_CLIENT_ID,
+    });
+
+    const payload = ticket.getPayload();
+    if (!payload) {
+      res.status(400).json({ message: "Invalid Google token" });
+      return;
+    }
+
+    const { email, name } = payload;
+
+    if (!email) {
+      res.status(400).json({ message: "Google account has no email" });
+      return;
+    }
+
+    let user = await User.findOne({ email });
+
+    if (!user) {
+      user = new User({
+        username: name?.replace(/\s/g, "").toLowerCase() || "googleuser",
+        email,
+        password: "google_oauth_dummy_password",
+        authProvider: "google",
+      });
+      await user.save();
+    } else if (user.authProvider !== "google") {
+      // If user is already crated without Google
+      res
+        .status(400)
+        .json({
+          message:
+            "User registered with email/password. Please login with username and password.",
+        });
+      return;
+    }
+
+    const token = jwt.sign({ id: user._id }, JWT_SECRET, {
+      expiresIn: "7d",
+    });
+
+    res.status(200).json({
+      token,
+      user: {
+        username: user.username,
+        email: user.email,
+      },
+    });
+  } catch (err) {
+    console.error("Google login error:", err);
+    res
+      .status(401)
+      .json({
+        message: "Google login failed",
+        error: err instanceof Error ? err.message : err,
+      });
   }
 };
 
