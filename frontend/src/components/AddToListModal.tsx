@@ -30,12 +30,12 @@ const AddToListModal: FC<AddToListModalProps> = ({
 
   return (
     <div
-      className="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center"
+      className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center px-4"
       aria-modal="true"
       role="dialog"
       aria-labelledby="modal-title"
     >
-      <div className="bg-shade-700 p-12 rounded-lg w-full max-w-md flex flex-col gap-4">
+      <div className="bg-shade-700 p-6 sm:p-12 rounded-lg w-full max-w-[816px] mx-4 sm:mx-0 flex flex-col gap-4">
         <h2 id="modal-title" className="text-2xl text-shade-50 font-bold">
           Pick a list
         </h2>
