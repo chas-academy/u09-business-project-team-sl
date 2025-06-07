@@ -113,7 +113,9 @@ export const googleLogin = async (
   req: Request,
   res: Response
 ): Promise<void> => {
-  const { idToken } = req.body;
+  const { idToken, username } = req.body;
+
+  console.log("Expected Google Client ID:", GOOGLE_CLIENT_ID);
 
   try {
     const ticket = await client.verifyIdToken({
@@ -128,16 +130,28 @@ export const googleLogin = async (
       return;
     }
 
-    const { email, name } = payload;
+    const { email } = payload;
 
     let user = await User.findOne({ email });
 
     if (!user) {
+      if (!username) {
+        res.status(400).json({ message: "Username is required for new users" });
+        return;
+      }
+
+      const existingUsername = await User.findOne({ username });
+      if (existingUsername) {
+        res.status(400).json({ message: "Username is already taken" });
+        return;
+      }
+
       user = new User({
-        username: name?.replace(/\s/g, "").toLowerCase() || "googleuser",
+        username,
         email,
         authProvider: "google",
       });
+
       await user.save();
     } else if (user.authProvider !== "google") {
       res.status(400).json({
