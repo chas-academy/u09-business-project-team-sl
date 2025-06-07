@@ -25,17 +25,18 @@ const GoogleLogin: React.FC<GoogleLoginProps> = ({
       window.google.accounts.id.renderButton(
         document.getElementById("googleSignInDiv")!,
         {
-  theme: "outline",
-  size: "medium",
-  text: "signin_with",
-  logo_alignment: "center",
-  locale: "en",
-}
+          theme: "outline",
+          size: "medium",
+          text: "signin_with",
+          logo_alignment: "center",
+          locale: "en",
+        }
       );
     }
   }, []);
 
   const handleCredentialResponse = (response: any) => {
+    console.log("Google credential response:", response);
     if (response.credential) {
       onLoginSuccess(response.credential);
     } else {

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import GoogleLogin from "../components/GoogleLogin";
 
 const LoginPage = () => {
@@ -6,11 +6,14 @@ const LoginPage = () => {
 
   const handleGoogleLoginSuccess = async (idToken: string) => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/google-login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ idToken }),
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/auth/google-login`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ idToken }),
+        }
+      );
 
       const text = await response.text();
 
