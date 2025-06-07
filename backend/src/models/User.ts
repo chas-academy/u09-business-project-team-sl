@@ -1,16 +1,23 @@
-import mongoose, { Schema, Document } from "mongoose";
+import mongoose from "mongoose";
 
-export interface IUser extends Document {
-  username: string;
-  email: string;
-  password: string;
-}
-
-const UserSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema({
   username: { type: String, required: true, unique: true },
-  email: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
-  authProvider: { type: String, enum: ["local", "google"], default: "local" },
+  email:    { type: String, required: true, unique: true },
+  password: {
+    type: String,
+    required: function (this: any) {
+      return this.authProvider === "local";
+    },
+    select: false, // inte inkludera i vanliga queries
+  },
+  authProvider: {
+    type: String,
+    enum: ["local", "google"],
+    required: true,
+  },
 });
 
-export default mongoose.model("User", UserSchema);
+const User = mongoose.model("User", userSchema);
+
+export default User;
+
