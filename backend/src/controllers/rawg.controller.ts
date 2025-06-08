@@ -18,8 +18,8 @@ type RawgSearchResponse = {
 
 // Fetch all games (with pagination)
 export const getGames = async (req: Request, res: Response): Promise<void> => {
-  const page = req.query.page || 1;
-  const pageSize = req.query.page_size || 10;
+  const page = Number(req.query.page) || 1;
+  const pageSize = Number(req.query.page_size) || 21;
 
   try {
     const url = `${BASE_URL}/games?key=${RAWG_API_KEY}&page=${page}&page_size=${pageSize}`;
