@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React from "react";
 import { Icon } from "@iconify/react";
 
 // Props
@@ -9,9 +9,12 @@ type InputFieldProps = {
   icon?: string;
   iconClass?: string;
   value?: string;
+  name?: string;
+  type?: string;
   onChange?: (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => void;
+  onIconClick?: () => void;
 };
 
 const InputField: React.FC<InputFieldProps> = ({
@@ -19,9 +22,12 @@ const InputField: React.FC<InputFieldProps> = ({
   title,
   placeholder,
   icon,
-  iconClass = "text-shade-200 group-hover:text-shade-50 cursor-pointer",
+  iconClass = "text-shade-200 group-hover:text-shade-50",
   value = "",
+  name,
+  type = "text",
   onChange,
+  onIconClick,
 }) => {
   // Base style for input and textarea
   const baseStyles =
@@ -31,7 +37,8 @@ const InputField: React.FC<InputFieldProps> = ({
   const textColorClass = value ? "text-shade-50" : "text-shade-200";
 
   // Resize textarea height based on content
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const textareaRef = React.useRef<HTMLTextAreaElement>(null);
+
   const adjustHeight = () => {
     if (textareaRef.current) {
       textareaRef.current.style.height = "auto";
@@ -40,7 +47,7 @@ const InputField: React.FC<InputFieldProps> = ({
     }
   };
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (variant === "textarea") {
       adjustHeight();
     }
@@ -52,6 +59,8 @@ const InputField: React.FC<InputFieldProps> = ({
       <div className="relative w-full">
         {variant === "input" ? (
           <input
+            name={name}
+            type={type}
             className={`${baseStyles} w-full ${
               icon ? "pr-10" : ""
             } text-base ${textColorClass} bg-shade-600 border-none`}
@@ -61,6 +70,7 @@ const InputField: React.FC<InputFieldProps> = ({
           />
         ) : (
           <textarea
+            name={name}
             ref={textareaRef}
             className={`${baseStyles} w-full ${
               icon ? "pr-10" : ""
@@ -79,7 +89,12 @@ const InputField: React.FC<InputFieldProps> = ({
         {icon && (
           <Icon
             icon={icon}
-            className={`absolute right-3 top-1/2 -translate-y-1/2 pointer-events-auto ${iconClass}`}
+            onClick={onIconClick}
+            className={`absolute right-3 top-1/2 -translate-y-1/2 ${
+              onIconClick
+                ? "cursor-pointer pointer-events-auto"
+                : "pointer-events-none"
+            } ${iconClass}`}
           />
         )}
       </div>
