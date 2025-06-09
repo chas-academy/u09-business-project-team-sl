@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import InputField from "../components/InputField";
 import Button from "../components/Button";
+import { apiFetch } from "../api/api";
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -46,7 +47,7 @@ const Register = () => {
     try {
       const { confirmPassword, ...submitData } = formData;
 
-      const res = await fetch("/api/auth/register", {
+      const res = await apiFetch("/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(submitData),
