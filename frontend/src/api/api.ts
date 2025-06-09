@@ -1,4 +1,4 @@
-const baseUrl = import.meta.env.VITE_API_URL || "/api";
+const baseUrl = import.meta.env.VITE_API_URL || "";
 
 export const apiFetch = (endpoint: string, options?: RequestInit) => {
   const url = `${baseUrl}${endpoint}`;
