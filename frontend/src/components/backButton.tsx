@@ -23,7 +23,7 @@ const BackButton: React.FC<BackButtonProps> = ({ text }) => {
         height={16}
         className="text-shade-200 group-hover:text-primary transition-colors"
       />
-      <span className="text-xs leading-none text-shade-200 group-hover:text-primary transition-colors">
+      <span className="text-xs leading-none text-shade-200 transition-colors">
         {text}
       </span>
     </div>
