@@ -106,10 +106,12 @@ const Login = () => {
           Sign in
         </Button>
 
-        <GoogleLogin
-          onLoginSuccess={handleGoogleLoginSuccess}
-          onLoginFailure={handleGoogleLoginFailure}
-        />
+        <div className="mx-auto w-full">
+          <GoogleLogin
+            onLoginSuccess={handleGoogleLoginSuccess}
+            onLoginFailure={handleGoogleLoginFailure}
+          />
+        </div>
 
         {error && <p className="text-red-500 text-sm text-center">{error}</p>}
 
