@@ -26,7 +26,7 @@ const GoogleLogin: React.FC<GoogleLoginProps> = ({
         document.getElementById("googleSignInDiv")!,
         {
           theme: "outline",
-          size: "medium",
+          size: "large",
           text: "signin_with",
           logo_alignment: "center",
           locale: "en",
@@ -44,7 +44,7 @@ const GoogleLogin: React.FC<GoogleLoginProps> = ({
     }
   };
 
-  return <div id="googleSignInDiv"></div>;
+  return <div id="googleSignInDiv" className="w-full min-h-[40px] flex justify-center [&>div]:w-full"></div>;
 };
 
 export default GoogleLogin;
