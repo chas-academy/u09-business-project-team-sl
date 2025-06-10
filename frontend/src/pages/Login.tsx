@@ -106,7 +106,7 @@ const Login = () => {
           Sign in
         </Button>
 
-        <div className="mx-auto w-full">
+        <div className="w-full max-w-md">
           <GoogleLogin
             onLoginSuccess={handleGoogleLoginSuccess}
             onLoginFailure={handleGoogleLoginFailure}
