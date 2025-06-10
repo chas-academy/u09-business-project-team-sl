@@ -69,7 +69,7 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col gap-6 items-center justify-center">
+    <section className="md:min-h-screen flex flex-col gap-6 items-center justify-center pt-12 md:pt-0">
       <h2 className="text-2xl font-bold text-shade-50 text-center">
         Register account
       </h2>
@@ -143,7 +143,7 @@ const Register = () => {
           </p>
         </div>
       </form>
-    </div>
+    </section>
   );
 };
 
