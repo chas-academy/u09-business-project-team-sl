@@ -125,8 +125,8 @@ const Register = () => {
           onIconClick={() => setShowConfirmPassword(!showConfirmPassword)}
         />
 
-        <div className="mx-auto flex flex-col gap-4 justify-center items-center">
-          <Button type="submit" variant="primary">
+        <div className="mx-auto flex flex-col gap-4 justify-center items-center w-full">
+          <Button type="submit" variant="primary" className="w-full">
             Register account
           </Button>
 
