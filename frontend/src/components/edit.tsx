@@ -11,9 +11,9 @@ const Edit: React.FC<EditProps> = ({ listId }) => {
 
   const handleClick = () => {
     if (listId) {
-      navigate(`/editList/${listId}`);
+      navigate(`/editlist/${listId}`);
     } else {
-      navigate("/editList");
+      navigate("/editlist");
     }
   };
 
