@@ -43,7 +43,7 @@ const ListCard: FC<ListCardProps> = ({
 
   const content = (
     <div className="bg-shade-900 p-4 rounded-md flex flex-col gap-2">
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center gap-2">
         <h2 className="text-lg font-bold text-shade-50 line-clamp-1">
           {title}
         </h2>
