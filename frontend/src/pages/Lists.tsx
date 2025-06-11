@@ -41,7 +41,7 @@ const Lists: React.FC = () => {
         </Button>
       </div>
 
-      <div className="flex flex-col gap-6">
+      <div className="flex flex-col gap-5">
         {lists.map((list: any) => (
           <ListCard
             key={list._id}
