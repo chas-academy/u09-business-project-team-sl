@@ -6,6 +6,7 @@ import Register from "./pages/Register";
 import GameDetail from "./pages/GameDetail";
 import CreateList from "./pages/createList";
 import Lists from "./pages/Lists";
+import EditList from "./pages/EditList";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="games/:id" element={<GameDetail />} />
           <Route path="createList" element={<CreateList />} />
           <Route path="lists" element={<Lists />} />
+          <Route path="/editList" element={<EditList />} />
           {/* Add pages here */}
         </Route>
       </Routes>
