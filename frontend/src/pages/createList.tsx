@@ -46,10 +46,10 @@ const CreateList = () => {
   };
 
   return (
-    <section className="flex flex-col items-center mt-16 gap-6">
+    <section className="mx-auto max-w-4xl flex flex-col gap-6 pt-12">
 
-      <div className="flex flex-col gap-6 w-[552px]">
-        <div className="h-[52px] flex flex-col gap-1">
+      <div className="flex flex-col gap-6">
+        <div className="flex flex-col gap-1">
           <BackButton text="Previous page" />
           <h2 className="text-shade-50 text-2xl font-semibold">Create new list</h2>
         </div>
