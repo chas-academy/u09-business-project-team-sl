@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { GameCard } from "../components/GameCard";
-import { apiFetch } from "../api/api";
+import { apiFetch } from "../utils/api";
 
 type Game = {
   rawgId: number;

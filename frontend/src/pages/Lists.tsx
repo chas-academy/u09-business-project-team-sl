@@ -1,4 +1,4 @@
-import { apiFetch } from "../api/api";
+import { apiFetch } from "../utils/api";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ListCard from "../components/ListCard";

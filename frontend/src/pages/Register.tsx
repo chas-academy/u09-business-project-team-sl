@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import InputField from "../components/InputField";
 import Button from "../components/Button";
-import { apiFetch } from "../api/api";
+import { apiFetch } from "../utils/api";
 
 const Register = () => {
   const [formData, setFormData] = useState({
