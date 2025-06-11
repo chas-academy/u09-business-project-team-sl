@@ -1,5 +1,4 @@
 import type { FC } from "react";
-import { Icon } from "@iconify/react";
 import { Link, useNavigate } from "react-router-dom";
 import Edit from "./edit";
 import DeleteButton from "./delete";
