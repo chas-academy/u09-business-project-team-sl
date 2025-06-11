@@ -37,7 +37,7 @@ const CreateList = () => {
         throw new Error(data.message || "Something went wrong");
       }
 
-      navigate("/myLists");
+      navigate("/lists");
     } catch (err: any) {
       setError(err.message);
     } finally {
