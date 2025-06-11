@@ -35,30 +35,31 @@ const AddToListModal: FC<AddToListModalProps> = ({
       role="dialog"
       aria-labelledby="modal-title"
     >
-      <div className="bg-shade-700 p-6 sm:p-12 rounded-lg w-full max-w-[816px] mx-4 sm:mx-0 flex flex-col gap-4">
+      <div className="bg-shade-700 p-6 sm:p-12 rounded-lg w-full max-w-[52rem] mx-4 sm:mx-0 flex flex-col gap-4">
         <h2 id="modal-title" className="text-2xl text-shade-50 font-bold">
           Pick a list
         </h2>
 
         <div
-          className="flex flex-col gap-2"
+          className="flex flex-col gap-2 max-h-[32rem] overflow-y-auto p-1"
           role="listbox"
           aria-activedescendant={selectedId ?? undefined}
         >
-          {lists.map((list) => (
-            <ListCard
-              key={list.id}
-              id={list.id}
-              title={list.title}
-              description={list.description}
-              selectable={true}
-              selected={selectedId === list.id}
-              onSelect={() => {
-                setSelectedId(list.id);
-                onSelectList?.(list.id);
-              }}
-            />
-          ))}
+          {(lists ?? []).map((list) =>
+            list?.id ? (
+              <ListCard
+                key={list.id}
+                id={list.id}
+                title={list.title}
+                description={list.description}
+                selectable={true}
+                selected={selectedId === list.id}
+                onSelect={() => {
+                  setSelectedId(list.id);
+                }}
+              />
+            ) : null
+          )}
         </div>
 
         <div className="flex gap-2 mt-4">
@@ -74,6 +75,7 @@ const AddToListModal: FC<AddToListModalProps> = ({
           >
             Add game to list
           </Button>
+
           <Button variant="destructive" onClick={onClose}>
             Cancel
           </Button>
