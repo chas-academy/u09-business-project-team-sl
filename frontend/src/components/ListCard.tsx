@@ -10,6 +10,7 @@ type ListCardProps = {
   selectable?: boolean;
   selected?: boolean;
   onSelect?: () => void;
+  onDeleted?: () => void;
   to?: string;
 };
 
@@ -19,6 +20,7 @@ const ListCard: FC<ListCardProps> = ({
   description,
   selectable = false,
   selected = false,
+  onDeleted,
   onSelect,
   to,
 }) => {
@@ -41,6 +43,33 @@ const ListCard: FC<ListCardProps> = ({
     navigate(`/lists/${id}/edit`, { state: { from: "/lists" } });
   };
 
+  // Delete function
+  const handleDeleteList = async (
+    e: React.MouseEvent<HTMLButtonElement>
+  ): Promise<void> => {
+    e.stopPropagation();
+    e.preventDefault();
+
+    const confirmed = confirm("Are you sure you want to delete this list?");
+    if (!confirmed) return;
+
+    try {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/lists/${id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+
+      if (!res.ok) throw new Error("Failed to delete list");
+
+      onDeleted?.();
+    } catch (err) {
+      console.error(err);
+      alert("Could not delete the list. Please try again.");
+    }
+  };
+
   const content = (
     <div className="bg-shade-900 p-4 rounded-md flex flex-col gap-2">
       <div className="flex justify-between items-center gap-2">
@@ -51,13 +80,7 @@ const ListCard: FC<ListCardProps> = ({
           <span onClick={handleEditClick}>
             <Edit />
           </span>
-
-          {/* Implement correct delete function */}
-          <DeleteButton
-            onClick={function (): void {
-              throw new Error("Function not implemented.");
-            }}
-          ></DeleteButton>
+          <DeleteButton onClick={handleDeleteList} />
         </div>
       </div>
       {description && (
