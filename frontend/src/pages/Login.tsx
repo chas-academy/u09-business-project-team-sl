@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import InputField from "../components/InputField";
 import Button from "../components/Button";
 import GoogleLogin from "../components/GoogleLogin";
-import { apiFetch } from "../api/api";
+import { apiFetch } from "../utils/api";
 
 const Login = () => {
   const [identifier, setIdentifier] = useState("");

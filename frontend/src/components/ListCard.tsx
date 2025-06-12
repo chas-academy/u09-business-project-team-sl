@@ -1,6 +1,7 @@
 import type { FC } from "react";
-import { Icon } from "@iconify/react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import Edit from "./edit";
+import DeleteButton from "./delete";
 
 type ListCardProps = {
   id: string;
@@ -21,6 +22,8 @@ const ListCard: FC<ListCardProps> = ({
   onSelect,
   to,
 }) => {
+  const navigate = useNavigate();
+
   const baseClasses = `block w-full cursor-pointer rounded-lg transition
     ${
       selected
@@ -29,25 +32,32 @@ const ListCard: FC<ListCardProps> = ({
     }
   `;
 
+  // Edit button navigation
+  const handleEditClick = (
+    e: React.MouseEvent<HTMLSpanElement, MouseEvent>
+  ) => {
+    e.stopPropagation();
+    e.preventDefault();
+    navigate(`/lists/${id}/edit`);
+  };
+
   const content = (
     <div className="bg-shade-900 p-4 rounded-md flex flex-col gap-2">
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center gap-2">
         <h2 className="text-lg font-bold text-shade-50 line-clamp-1">
           {title}
         </h2>
         <div className="flex gap-1 text-shade-50">
-          {/* Change to component */}
-          <Icon
-            icon="ep:edit"
-            className="cursor-pointer hover:text-shade-50 size-5"
-            width={18}
-          />
-          {/* Change to component */}
-          <Icon
-            icon="akar-icons:cross"
-            className="cursor-pointer hover:text-red-400 size-5"
-            width={18}
-          />
+          <span onClick={handleEditClick}>
+            <Edit />
+          </span>
+
+          {/* Implement correct delete function */}
+          <DeleteButton
+            onClick={function (): void {
+              throw new Error("Function not implemented.");
+            }}
+          ></DeleteButton>
         </div>
       </div>
       {description && (

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { apiFetch } from "../api/api";
+import { apiFetch } from "../utils/api";
 import AddGameButton from "../components/addGameButton";
 import BackButton from "../components/backButton";
 
