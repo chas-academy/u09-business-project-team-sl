@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { GameCard } from "../components/GameCard";
 import BackButton from "../components/backButton";
 import Button from "../components/Button";
@@ -22,6 +22,7 @@ const SpecificList = () => {
   const { id } = useParams<{ id: string }>();
   const [list, setList] = useState<ListData | null>(null);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   const fetchList = async () => {
     try {
@@ -79,7 +80,7 @@ const SpecificList = () => {
         <div className=" flex flex-row gap-2">
           <Button
             icon="ep:edit"
-            //add onClick
+            onClick={() => navigate(`/lists/${id}/edit`)}
           >
             Edit list
           </Button>
