@@ -47,6 +47,35 @@ const SpecificList = () => {
     fetchList();
   }, [id]);
 
+  async function handleDeleteGame(rawgId: string): Promise<void> {
+    if (!id) return;
+
+    try {
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/lists/${id}/games/${rawgId}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+
+      if (!res.ok) throw new Error("Failed to delete game from list.");
+
+      setList((prev) => {
+        if (!prev) return prev;
+        return {
+          ...prev,
+          games: prev.games.filter((game) => game.rawgId !== rawgId),
+        };
+      });
+    } catch (err) {
+      console.error(err);
+      alert("Could not delete game, please try again.");
+    }
+  }
+
   if (loading) return <p className="text-shade-50 pt-12">Loading...</p>;
 
   if (!list) return <p className="text-shade-50 pt-12">List not found</p>;
@@ -72,12 +101,12 @@ const SpecificList = () => {
                 title={game.title}
                 platforms={game.platforms}
                 image={game.image}
-                // Delete.tsx here
+                onDelete={() => handleDeleteGame(game.rawgId)}
               />
             ))}
           </div>
         </div>
-        <div className=" flex flex-row gap-2">
+        <div className="flex flex-row gap-2">
           <Button
             icon="ep:edit"
             onClick={() =>
