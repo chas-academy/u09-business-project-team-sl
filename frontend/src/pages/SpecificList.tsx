@@ -26,13 +26,13 @@ const SpecificList = () => {
 
   const fetchList = async () => {
     try {
-      const res = await fetch(`/api/lists/${id}`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/lists/${id}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
 
-      if (!res.ok) throw new Error("Kunde inte hämta listan.");
+      if (!res.ok) throw new Error("Could not fetch list.");
 
       const data = await res.json();
       setList(data);
@@ -47,9 +47,9 @@ const SpecificList = () => {
     fetchList();
   }, [id]);
 
-  if (loading) return <p className="text-shade-50">Loading...</p>;
+  if (loading) return <p className="text-shade-50 pt-12">Loading...</p>;
 
-  if (!list) return <p className="text-shade-50">List not found</p>;
+  if (!list) return <p className="text-shade-50 pt-12">List not found</p>;
 
   return (
     <section className="mx-auto max-w-5xl flex flex-col gap-6 pt-12">
