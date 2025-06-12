@@ -76,6 +76,32 @@ const SpecificList = () => {
     }
   }
 
+  async function handleDeleteList(): Promise<void> {
+    if (!id) return;
+
+    const confirmed = confirm(
+      "Are you sure you want to delete this entire list?"
+    );
+    if (!confirmed) return;
+
+    try {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/lists/${id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+
+      if (!res.ok) throw new Error("Failed to delete list.");
+
+      alert("List deleted successfully.");
+      navigate("/lists");
+    } catch (err) {
+      console.error(err);
+      alert("Could not delete the list, please try again.");
+    }
+  }
+
   if (loading) return <p className="text-shade-50 pt-12">Loading...</p>;
 
   if (!list) return <p className="text-shade-50 pt-12">List not found</p>;
@@ -119,7 +145,7 @@ const SpecificList = () => {
           <Button
             variant="destructive"
             icon="weui:delete-filled"
-            // add onClick
+            onClick={handleDeleteList}
           >
             Delete
           </Button>
