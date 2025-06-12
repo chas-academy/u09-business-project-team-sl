@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import BackButton from "../components/backButton";
 import InputField from "../components/InputField";
 import Button from "../components/Button";
 
 const EditList = () => {
-  const { id } = useParams();
+  const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
 
   const [title, setTitle] = useState("");
@@ -14,7 +14,8 @@ const EditList = () => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchList = async () => {
+     if (!id) return;
+    (async () => {
       try {
         const token = localStorage.getItem("token");
         const res = await fetch(`${import.meta.env.VITE_API_URL}/lists/${id}`, {
@@ -30,12 +31,11 @@ const EditList = () => {
         const data = await res.json();
         setTitle(data.title);
         setDescription(data.description);
+
       } catch (err: any) {
         setError(err.message);
       }
-    };
-
-    fetchList();
+    })();
   }, [id]);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -76,7 +76,7 @@ const EditList = () => {
     <section className="mx-auto max-w-4xl flex flex-col gap-6 pt-12">
       <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-1">
-          <BackButton text="Previous page" />
+          <BackButton text= "Previous page" />
           <h2 className="text-shade-50 text-2xl font-semibold">Edit list</h2>
         </div>
 
@@ -110,7 +110,7 @@ const EditList = () => {
             <Button
               type="button"
               variant="destructive"
-              onClick={() => navigate(-1)}
+              onClick={() => navigate("/lists")}
             >
               Cancel
             </Button>

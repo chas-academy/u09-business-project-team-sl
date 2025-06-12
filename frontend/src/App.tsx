@@ -17,7 +17,7 @@ function App() {
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
           <Route path="games/:id" element={<GameDetail />} />
-          <Route path="createList" element={<CreateList />} />
+          <Route path="createlist" element={<CreateList />} />
           <Route path="lists" element={<Lists />} />
           <Route path="/lists/:id/edit" element={<EditList />} />
           {/* Add pages here */}
