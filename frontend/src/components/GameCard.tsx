@@ -1,10 +1,10 @@
 import { useState } from "react";
 import type { FC } from "react";
-import { Icon } from "@iconify/react";
 import AddGameButton from "./addGameButton";
 import AddToListModal from "./AddToListModal";
 import { Link } from "react-router-dom";
 import { apiFetch } from "../utils/api";
+import DeleteButton from "./delete";
 
 type GameCardProps = {
   variant: "game" | "list";
@@ -102,21 +102,13 @@ export const GameCard: FC<GameCardProps> = ({
             <p className="text-xs text-shade-200">{platforms.join(", ")}</p>
           </div>
           {variant === "list" && (
-            <button
+            <DeleteButton
               onClick={(e) => {
                 e.stopPropagation();
+                e.preventDefault();
                 onDelete?.();
               }}
-              className="text-white hover:text-red-400 transition self-start pt-1"
-              aria-label="Delete game"
-            >
-              <Icon
-                icon="akar-icons:cross"
-                width="16"
-                height="16"
-                className="cursor-pointer"
-              />
-            </button>
+            />
           )}
         </div>
         {variant === "game" && (
