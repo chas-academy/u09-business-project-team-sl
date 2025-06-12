@@ -80,7 +80,9 @@ const SpecificList = () => {
         <div className=" flex flex-row gap-2">
           <Button
             icon="ep:edit"
-            onClick={() => navigate(`/lists/${id}/edit`)}
+            onClick={() =>
+              navigate(`/lists/${id}/edit`, { state: { from: `/lists/${id}` } })
+            }
           >
             Edit list
           </Button>

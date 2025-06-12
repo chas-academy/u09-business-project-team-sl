@@ -38,7 +38,7 @@ const ListCard: FC<ListCardProps> = ({
   ) => {
     e.stopPropagation();
     e.preventDefault();
-    navigate(`/lists/${id}/edit`);
+    navigate(`/lists/${id}/edit`, { state: { from: "/lists" } });
   };
 
   const content = (
