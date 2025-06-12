@@ -7,6 +7,8 @@ import Button from "../components/Button";
 const EditList = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from || "/lists";
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -14,7 +16,7 @@ const EditList = () => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-     if (!id) return;
+    if (!id) return;
     (async () => {
       try {
         const token = localStorage.getItem("token");
@@ -31,7 +33,6 @@ const EditList = () => {
         const data = await res.json();
         setTitle(data.title);
         setDescription(data.description);
-
       } catch (err: any) {
         setError(err.message);
       }
@@ -64,7 +65,7 @@ const EditList = () => {
         throw new Error(data.message || "Failed to update list");
       }
 
-      navigate("/lists");
+      navigate(from);
     } catch (err: any) {
       setError(err.message);
     } finally {
@@ -76,7 +77,7 @@ const EditList = () => {
     <section className="mx-auto max-w-4xl flex flex-col gap-6 pt-12">
       <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-1">
-          <BackButton text= "Previous page" />
+          <BackButton text="Previous page" />
           <h2 className="text-shade-50 text-2xl font-semibold">Edit list</h2>
         </div>
 
@@ -99,9 +100,7 @@ const EditList = () => {
             onChange={(e) => setDescription(e.target.value)}
           />
 
-          {error && (
-            <p className="text-sm text-red-500">{error}</p>
-          )}
+          {error && <p className="text-sm text-red-500">{error}</p>}
 
           <div className="flex gap-4">
             <Button type="submit" disabled={loading}>
@@ -110,7 +109,7 @@ const EditList = () => {
             <Button
               type="button"
               variant="destructive"
-              onClick={() => navigate("/lists")}
+              onClick={() => navigate(from)}
             >
               Cancel
             </Button>
