@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { GameCard } from "../components/GameCard";
 import BackButton from "../components/backButton";
+import Button from "../components/Button";
 
 type Game = {
   rawgId: string;
@@ -70,10 +71,26 @@ const SpecificList = () => {
                 title={game.title}
                 platforms={game.platforms}
                 image={game.image}
-                // Delete here
+                // Delete.tsx here
               />
             ))}
           </div>
+        </div>
+        <div className=" flex flex-row gap-2">
+          <Button
+            icon="ep:edit"
+            //add onClick
+          >
+            Edit list
+          </Button>
+
+          <Button
+            variant="destructive"
+            icon="weui:delete-filled"
+            // add onClick
+          >
+            Delete
+          </Button>
         </div>
       </div>
     </section>
