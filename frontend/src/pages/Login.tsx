@@ -4,6 +4,7 @@ import InputField from "../components/InputField";
 import Button from "../components/Button";
 import GoogleLogin from "../components/GoogleLogin";
 import { apiFetch } from "../utils/api";
+import { useAuth } from "../context/AuthContext";
 
 const Login = () => {
   const [identifier, setIdentifier] = useState("");
@@ -12,6 +13,7 @@ const Login = () => {
   const [error, setError] = useState<string | null>(null);
 
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   // local login (email + password)
   const handleLogin = async (e: React.FormEvent) => {
@@ -35,7 +37,7 @@ const Login = () => {
       if (!res.ok) throw new Error(data.message || "Login failed");
 
       if (data.token) {
-        localStorage.setItem("token", data.token);
+        login(data.token);
         navigate("/");
       } else {
         throw new Error("No token received");
@@ -60,7 +62,7 @@ const Login = () => {
       const data = JSON.parse(text);
       if (!response.ok) throw new Error(data.message || "Google login failed");
 
-      localStorage.setItem("token", data.token);
+      login(data.token);
       navigate("/");
     } catch (err: any) {
       setError(err.message || "Unknown error");
