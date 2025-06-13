@@ -1,7 +1,7 @@
 import type { FC } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Edit from "./edit";
-import DeleteButton from "./delete";
+import Edit from "./Edit";
+import DeleteButton from "./Delete";
 
 type ListCardProps = {
   id: string;

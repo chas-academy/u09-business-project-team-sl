@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { apiFetch } from "../utils/api";
-import AddGameButton from "../components/addGameButton";
-import BackButton from "../components/backButton";
+import AddGameButton from "../components/AddGameButton";
+import BackButton from "../components/BackButton";
 
 type GameDetailType = {
   rawgId: string;

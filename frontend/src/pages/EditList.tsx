@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
-import BackButton from "../components/backButton";
+import BackButton from "../components/BackButton";
 import InputField from "../components/InputField";
 import Button from "../components/Button";
 
