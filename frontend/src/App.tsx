@@ -1,10 +1,10 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Layout from "./components/layout";
-import Home from "./pages/home";
+import Layout from "./components/Layout";
+import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import GameDetail from "./pages/GameDetail";
-import CreateList from "./pages/createList";
+import CreateList from "./pages/CreateList";
 import Lists from "./pages/Lists";
 import EditList from "./pages/EditList";
 import SpecificList from "./pages/SpecificList";
