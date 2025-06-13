@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { GameCard } from "../components/GameCard";
-import BackButton from "../components/backButton";
+import BackButton from "../components/BackButton";
 import Button from "../components/Button";
 
 type Game = {

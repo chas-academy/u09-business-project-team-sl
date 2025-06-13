@@ -1,10 +1,10 @@
 import { useState } from "react";
 import type { FC } from "react";
-import AddGameButton from "./addGameButton";
+import AddGameButton from "./AddGameButton";
 import AddToListModal from "./AddToListModal";
 import { Link } from "react-router-dom";
 import { apiFetch } from "../utils/api";
-import DeleteButton from "./delete";
+import DeleteButton from "./Delete";
 
 type GameCardProps = {
   variant: "game" | "list";
