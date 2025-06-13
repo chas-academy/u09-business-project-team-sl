@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Icon } from "@iconify/react";
 import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 type NavbarProps = {
   isLoggedIn: boolean;
@@ -9,9 +10,10 @@ type NavbarProps = {
 const Navbar: React.FC<NavbarProps> = ({ isLoggedIn }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const navigate = useNavigate();
+  const { logout } = useAuth();
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
+    logout();
     navigate("/login");
   };
 
@@ -50,7 +52,7 @@ const Navbar: React.FC<NavbarProps> = ({ isLoggedIn }) => {
               <button
                 key={item.label}
                 onClick={item.action}
-                className="hover:text-primary transition-colors"
+                className="hover:text-primary transition-colors cursor-pointer"
               >
                 {item.label}
               </button>
