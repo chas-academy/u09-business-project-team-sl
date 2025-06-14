@@ -14,6 +14,7 @@ const Home = () => {
   const [games, setGames] = useState<Game[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [suggestions, setSuggestions] = useState<string[]>([]);
 
 useEffect(() => {
   apiFetch("/games?page_size=21")
@@ -33,8 +34,6 @@ useEffect(() => {
 
   const handleSearch = async (query: string) => {
     if (!query.trim()) return;
-
-
     setLoading(true);
     setError(null);
 
@@ -50,20 +49,35 @@ useEffect(() => {
     }
   };
 
+  const handleSuggest = async (query: string) => {
+    try {
+      const res = await apiFetch(`/games/search?search=${encodeURIComponent(query)}`);
+      if (!res.ok) return;
+      const data: Game[] = await res.json();
+      setSuggestions(data.map((g) => g.title));
+    } catch (err) {
+      setSuggestions([]);
+    }
+  };
+
   return (
     <section className="pt-4 md:pt-10">
       <h2 className="text-2xl text-shade-50 font-bold">Games</h2>
 
       <div className="mb-6">
-        <Searchbar onSearch={handleSearch} />
+        <Searchbar 
+        onSearch={handleSearch} 
+        onSuggest={handleSuggest}
+        suggestions={suggestions}
+        />
       </div>
 
       {loading && <p className="text-shade-50 pt-12">Loading...</p>}
       {error && <p className="text-red-500 pt-12">Error: {error}</p>}
 
-
       {!loading && !error && (
         <>
+
           {games.length === 0 ? (
             <p className="text-shade-50 pt-8">No results found.</p>
           ) : (
@@ -83,7 +97,7 @@ useEffect(() => {
     )}
   </>
   )}
-    </section>
+  </section>
   );
 };
 
