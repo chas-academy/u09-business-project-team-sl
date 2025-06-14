@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { GameCard } from "../components/GameCard";
 import { apiFetch } from "../utils/api";
+import Searchbar from "../components/Searchbar";
 
 type Game = {
   rawgId: number;
@@ -30,13 +31,43 @@ useEffect(() => {
     });
 }, []);
 
+  const handleSearch = async (query: string) => {
+    if (!query.trim()) return;
 
-  if (loading) return <p className="text-shade-50 pt-12">Loading...</p>;
-  if (error) return <p className="text-red-500 pt-12">Error: {error}</p>;
+
+    setLoading(true);
+    setError(null);
+
+     try {
+      const res = await apiFetch(`/rawg/search?search=${encodeURIComponent(query)}`);
+      if (!res.ok) throw new Error("Search failed");
+      const data = await res.json();
+      setGames(data);
+    } catch (err: any) {
+      setError(err.message || "Search error");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <section className="pt-4 md:pt-10">
-      <h2 className="text-2xl text-shade-50">Games</h2>
+      <h2 className="text-2xl text-shade-50 font-bold">Games</h2>
+
+      <div className="mb-6">
+        <Searchbar onSearch={handleSearch} />
+      </div>
+
+      {loading && <p className="text-shade-50 pt-12">Loading...</p>}
+      {error && <p className="text-red-500 pt-12">Error: {error}</p>}
+
+
+      {!loading && !error && (
+        <>
+          {games.length === 0 ? (
+            <p className="text-shade-50 pt-8">No results found.</p>
+          ) : (
+
       <div className="grid grid-cols-[repeat(auto-fit,minmax(225px,1fr))] gap-4 p-4">
         {games.map((game) => (
           <GameCard
@@ -49,6 +80,9 @@ useEffect(() => {
           />
         ))}
       </div>
+    )}
+  </>
+  )}
     </section>
   );
 };
