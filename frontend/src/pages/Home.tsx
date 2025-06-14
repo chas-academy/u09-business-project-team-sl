@@ -39,7 +39,7 @@ useEffect(() => {
     setError(null);
 
      try {
-      const res = await apiFetch(`/rawg/search?search=${encodeURIComponent(query)}`);
+      const res = await apiFetch(`/games/search?search=${encodeURIComponent(query)}`);
       if (!res.ok) throw new Error("Search failed");
       const data = await res.json();
       setGames(data);
