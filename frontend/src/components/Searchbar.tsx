@@ -23,7 +23,6 @@ const Searchbar: React.FC<Props> = ({ onSearch, onSuggest, suggestions }) => {
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && query.trim()) {
-      onSearch(query.trim());
       setShowDropdown(false);
     }
   };

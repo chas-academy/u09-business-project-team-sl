@@ -50,11 +50,16 @@ useEffect(() => {
   };
 
   const handleSuggest = async (query: string) => {
+    if (!query.trim()) return;
+
     try {
       const res = await apiFetch(`/games/search?search=${encodeURIComponent(query)}`);
       if (!res.ok) return;
       const data: Game[] = await res.json();
+
       setSuggestions(data.map((g) => g.title));
+      setGames(data);
+      
     } catch (err) {
       setSuggestions([]);
     }
