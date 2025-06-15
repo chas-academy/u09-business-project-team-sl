@@ -29,7 +29,10 @@ export const getGames = async (req: Request, res: Response): Promise<void> => {
       throw new Error(`RAWG API responded with status ${response.status}`);
     }
 
-    const data = (await response.json()) as { results: RawgGame[] };
+    const data = (await response.json()) as {
+      count: any;
+      results: RawgGame[];
+    };
 
     const formattedGames = data.results.map((game) => ({
       rawgId: game.id.toString(),
@@ -39,7 +42,10 @@ export const getGames = async (req: Request, res: Response): Promise<void> => {
       image: game.background_image,
     }));
 
-    res.status(200).json(formattedGames);
+    res.status(200).json({
+      games: formattedGames,
+      totalCount: data.count,
+    });
   } catch (error) {
     console.error("RAWG API error:", error);
     res.status(500).json({ message: "Failed to fetch games from RAWG API" });
