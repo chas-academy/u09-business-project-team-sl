@@ -44,7 +44,12 @@ const GoogleLogin: React.FC<GoogleLoginProps> = ({
     }
   };
 
-  return <div id="googleSignInDiv" className="w-full min-h-[40px] flex justify-center [&>div]:w-full"></div>;
+  return (
+    <div
+      id="googleSignInDiv"
+      className="flex justify-center w-full min-h-[40px] [&>div]:w-full"
+    ></div>
+  );
 };
 
 export default GoogleLogin;
