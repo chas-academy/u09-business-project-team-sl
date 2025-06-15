@@ -1,5 +1,6 @@
 import { Outlet } from "react-router-dom";
 import Navbar from "./Navbar";
+import Footer from "./Footer";
 import { useAuth } from "../context/AuthContext";
 
 const Layout = () => {
@@ -13,7 +14,7 @@ const Layout = () => {
         <Outlet />
       </main>
 
-      {/* Footer here */}
+      <Footer />
     </div>
   );
 };
