@@ -108,7 +108,7 @@ const Login = () => {
           Sign in
         </Button>
 
-        <div className="w-full max-w-md">
+        <div className="flex justify-center w-full max-w-md">
           <GoogleLogin
             onLoginSuccess={handleGoogleLoginSuccess}
             onLoginFailure={handleGoogleLoginFailure}
