@@ -1,6 +1,6 @@
 # XP Feed
 
-XP Feed is a full-stack application where users can create game lists and explore games from the [RAWG.io](https://rawg.io/) API.
+XP Feed is a full-stack application that allows users to create game lists and discover games using the [RAWG.io](https://rawg.io/) API.
 
 ## Project Structure
 
