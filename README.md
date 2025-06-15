@@ -4,16 +4,16 @@ XP Feed is a full-stack application where users can create game lists and explor
 
 ## Project Structure
 
-- `frontend/` – Vite + React (User interface for XP Feed)
-- `backend/` – Node.js + Express + MongoDB (API and authentication)
+- `frontend/` – Vite + React + TypeScript
+- `backend/` – Node.js + Express + MongoDB
 
 ## Features
 
-- User authentication (JWT)
-- Create and manage game lists
+- User authentication with Google OAuth (JWT)
 - Browse and search for games via RAWG API
+- Create and manage personal game lists
 - Add games to custom lists
-- Responsive UI built with Tailwind
+- Responsive UI built with Tailwind CSS
 
 ## Getting Started
 
@@ -25,4 +25,21 @@ npm install
 npm run dev
 ```
 
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/N68_urbh)
+### Frontend
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+- Vite development server will start at <http://localhost:5173>
+
+Be sure to create a `.env` file in the frontend/ directory with the following:
+
+```ini
+VITE_GOOGLE_CLIENT_ID=your-google-client-id-here
+VITE_API_URL=http://localhost:5000
+```
+
+- Create a `GOOGLE_CLIENT_ID` via [Google Cloud Console](https://console.cloud.google.com/) under APIs & Services > Credentials and add it to your `.env` file for OAuth authentication.
