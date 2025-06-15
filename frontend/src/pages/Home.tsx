@@ -58,7 +58,6 @@ useEffect(() => {
       const data: Game[] = await res.json();
 
       setSuggestions(data.map((g) => g.title));
-      setGames(data);
       
     } catch (err) {
       setSuggestions([]);
